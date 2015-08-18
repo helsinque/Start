@@ -13,8 +13,6 @@ class Client extends model
         'phone',
         'address',
         'obs'
-
     ];
-    //
-
+    
 }
