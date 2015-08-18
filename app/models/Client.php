@@ -1,12 +1,12 @@
 <?php
 
-namespace myProject;
+namespace myProject\models;
 
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\model;
 
-class Client extends
+class Client extends model
 {
-    protected $fillable =[
+    protected $client =[
         'name',
         'responsible',
         'email',
@@ -16,4 +16,5 @@ class Client extends
 
     ];
     //
+
 }

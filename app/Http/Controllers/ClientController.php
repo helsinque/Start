@@ -4,7 +4,7 @@ namespace myProject\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-use myProject\Client;
+use myProject\models\Client;
 use myProject\Http\Requests;
 use myProject\Http\Controllers\Controller;
 
@@ -44,16 +44,6 @@ class ClientController extends Controller
         return Client::find($id);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return Response
-     */
-    public function edit($id)
-    {
-    //
-    }
 
     /**
      * Update the specified resource in storage.
