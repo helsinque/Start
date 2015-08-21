@@ -3,13 +3,25 @@
 namespace myProject\Http\Controllers;
 
 use Illuminate\Http\Request;
-
-use myProject\models\Client;
-use myProject\Http\Requests;
-use myProject\Http\Controllers\Controller;
+use myProject\repositories\ClientRepository;
 
 class ClientController extends Controller
 {
+
+
+    /**
+     * @var ClientRepository
+     */
+    private $repository;
+
+    /**
+     * ClientController constructor.
+     */
+    public function __construct(ClientRepository $repository)
+    {
+        $this->repository = $repository;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -17,7 +29,7 @@ class ClientController extends Controller
      */
     public function index()
     {
-        return Client::all();
+        return $this->repository->all();
     }
 
 
@@ -29,7 +41,8 @@ class ClientController extends Controller
      */
     public function store(Request $request)
     {
-        return Client::create($request->all());
+        dd($request->all());
+        return $this->repository->create($request->all());
         
     }
 
@@ -41,7 +54,7 @@ class ClientController extends Controller
      */
     public function show($id)
     {
-        return Client::find($id);
+        return $this->repository->find($id);
     }
 
 
@@ -54,7 +67,8 @@ class ClientController extends Controller
      */
     public function update(Request $request, $id)
     {
-        Client::find($id)->update($request->all());
+dd($request->all());
+       return $this->repository->update($request->all(),$id);
 
     }
 
@@ -66,6 +80,11 @@ class ClientController extends Controller
      */
     public function destroy($id)
     {
-        Client::find($id)->delete();
+      $output=  $this->repository->delete($id);
+
+      if($output)
+          return response()->json("success!") ;
+      return response()->json("error!") ;
+
     }
 }
