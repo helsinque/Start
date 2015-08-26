@@ -3,8 +3,13 @@
 namespace myProject\Http\Controllers;
 
 use Illuminate\Http\Request;
-use myProject\repositories\ClientRepository;
+use myProject\Repositories\ClientRepository;
+use myProject\Services\ClientService;
 
+/**
+ * Class ClientController
+ * @package myProject\Http\Controllers
+ */
 class ClientController extends Controller
 {
 
@@ -13,13 +18,20 @@ class ClientController extends Controller
      * @var ClientRepository
      */
     private $repository;
+    /**
+     * @var ClientRepository
+     */
+    private $service;
 
     /**
      * ClientController constructor.
+     * @param ClientRepository $repository
+     * @param ClientService $service
      */
-    public function __construct(ClientRepository $repository)
+    public function __construct(ClientRepository $repository, ClientService $service)
     {
         $this->repository = $repository;
+        $this->service = $service;
     }
 
     /**
@@ -41,8 +53,8 @@ class ClientController extends Controller
      */
     public function store(Request $request)
     {
-        dd($request->all());
-        return $this->repository->create($request->all());
+
+        return $this->service->create($request->all());
         
     }
 
@@ -67,8 +79,8 @@ class ClientController extends Controller
      */
     public function update(Request $request, $id)
     {
-dd($request->all());
-       return $this->repository->update($request->all(),$id);
+
+       return $this->service->update($request->all(),$id);
 
     }
 

@@ -6,7 +6,7 @@
  * Time: 23:46
  */
 
-namespace myProject\repositories;
+namespace myProject\Repositories;
 
 
 use myProject\Entities\Client;
