@@ -1,8 +1,17 @@
 <?php
 
-use Illuminate\Database\Seeder;
+/**
+ * Created by PhpStorm.
+ * User: hel-sys
+ * Date: 26-08-2015
+ * Time: 22:20
+ */
 
-class ProjectTableSeeder extends Seeder
+
+use \Illuminate\Database\Seeder;
+
+class ProjectTableSeeder extends  Seeder
+
 {
     /**
      * Run the database seeds.
@@ -14,6 +23,7 @@ class ProjectTableSeeder extends Seeder
 
         \myProject\Entities\Project::truncate();
 
-        factory(\myProject\Entities\Project::class, 5)->create();
+        factory(\myProject\Entities\Project::class, 10)->create();
     }
+
 }
