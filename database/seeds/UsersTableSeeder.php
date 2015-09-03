@@ -10,7 +10,7 @@
 
 use \Illuminate\Database\Seeder;
 
-class ProjectTableSeeder extends  Seeder
+class UsersTableSeeder extends  Seeder
 
 {
     /**
@@ -23,7 +23,7 @@ class ProjectTableSeeder extends  Seeder
 
         //\myProject\Entities\Project::truncate();
 
-        factory(\myProject\Entities\Project::class, 10)->create();
+        factory(\myProject\Entities\User::class, 10)->create();
     }
 
 }

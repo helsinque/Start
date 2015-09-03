@@ -14,4 +14,5 @@ class Client extends model
                 'address',
                 'obs'
             );
+
 }

@@ -3,7 +3,6 @@
 namespace myProject\Repositories;
 
 use Prettus\Repository\Eloquent\BaseRepository;
-use Prettus\Repository\Criteria\RequestCriteria;
 use myProject\Entities\Project;
 
 /**
@@ -12,6 +11,17 @@ use myProject\Entities\Project;
  */
 class ProjectRepositoryEloquent extends BaseRepository implements ProjectRepository
 {
+
+    protected $relationships = array('user','client');
+
+    /**
+     * @return array
+     */
+    public function getRelations()
+    {
+        return $this->relationships;
+
+    }
     /**
      * Specify Model class name
      *
@@ -22,11 +32,7 @@ class ProjectRepositoryEloquent extends BaseRepository implements ProjectReposit
         return Project::class;
     }
 
-    /**
-     * Boot up the repository, pushing criteria
-     */
-    public function boot()
-    {
-        $this->pushCriteria( app(RequestCriteria::class) );
-    }
+
+
+
 }
