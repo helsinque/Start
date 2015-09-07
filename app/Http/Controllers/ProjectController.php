@@ -38,16 +38,6 @@ class ProjectController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @param  Request  $request
@@ -68,7 +58,6 @@ class ProjectController extends Controller
     {
 
         $relations = $this->repository->getRelations();
-
         return $this->repository->with($relations)->find($id);
     }
 

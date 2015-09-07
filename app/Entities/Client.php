@@ -15,4 +15,8 @@ class Client extends model
                 'obs'
             );
 
+    public function project()
+    {
+        return $this->belongsTo(Project::class);
+    }
 }

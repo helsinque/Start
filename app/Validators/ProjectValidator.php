@@ -15,7 +15,7 @@ use Prettus\Validator\LaravelValidator;
 class ProjectValidator extends LaravelValidator
 {
     /*without interface
-     * protected  $rules = array('name'=>'requires', ...);
+     * protected  $rules = array('name'=>'required|max:255', ...);
      * */
 
     protected  $rules = array(
@@ -25,12 +25,18 @@ class ProjectValidator extends LaravelValidator
             'client_id'=> 'required|max:255',
             'name'=> 'required|email',
             'description'=> 'required',
+            'due_date'=> 'required',
+            'progress'=> 'required',
+            'status'=> 'required',
         ),
         ValidatorInterface::RULE_UPDATE => array(
             'owner_id'=> 'required|max:255',
             'client_id'=> 'required|max:255',
             'name'=> 'required|email',
             'description'=> 'required',
+            'due_date'=> 'required',
+            'progress'=> 'required',
+            'status'=> 'required',
         )
 
     );

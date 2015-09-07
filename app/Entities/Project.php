@@ -25,7 +25,7 @@ class Project extends Model implements Transformable
      */
     public function client()
     {
-        return $this->belongsTo('myProject\Entities\Client');
+        return $this->belongsTo(Client::class);
     }
 
     /**
@@ -35,7 +35,7 @@ class Project extends Model implements Transformable
     {
         // belongsTo()project  * - 1 user
         // hasMany() 1 - * //
-        return $this->belongsTo('myProject\Entities\User');
+        return $this->belongsTo(User::class,'owner_id');
     }
 
 }
