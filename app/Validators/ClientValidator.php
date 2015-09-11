@@ -28,9 +28,9 @@ class ClientValidator extends LaravelValidator
             'address'=> 'required'
         ),
         ValidatorInterface::RULE_UPDATE => array(
-            'name'=> 'max:255',
-            'responsible'=> 'max:255',
-            'email'=> 'email',
+            'name'=> 'required|max:255',
+            'responsible'=> 'required|max:255',
+            'email'=> 'required|email',
             'phone'=> 'required',
             'address'=> 'required'
         )
