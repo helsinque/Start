@@ -5,7 +5,6 @@ namespace myProject\Http\Controllers;
 use Illuminate\Http\Request;
 
 use myProject\Repositories\ProjectRepository;
-use myProject\Repositories\ClientRepository;
 
 use myProject\Http\Requests;
 use myProject\Services\ProjectService;
@@ -34,7 +33,8 @@ class ProjectController extends Controller
 
     public function index()
     {
-      return $this->repository->all();
+      $relations = $this->repository->getRelations();
+      return  $this->repository->with($relations)->all();
     }
 
     /**
@@ -58,7 +58,15 @@ class ProjectController extends Controller
     {
 
         $relations = $this->repository->getRelations();
-        return $this->repository->with($relations)->find($id);
+
+        try{
+            $this->repository->with($relations)->find($id);
+
+        }catch (\Exception $e){
+            if($e->getCode() ==0)
+                return response()->json("'code':1,'description':'Project $id not found!' ") ;
+        }
+
     }
 
     /**
@@ -70,7 +78,14 @@ class ProjectController extends Controller
      */
     public function update(Request $request, $id)
     {
-        return $this->service->update($request->all(),$id);
+        try{
+            return $this->service->update($request->all(),$id);
+
+        }catch (\Exception $e){
+
+            if($e->getCode() ==0)
+                return response()->json("'code':1,'description':'Project $id not found!' ") ;
+        }
     }
 
     /**
@@ -81,10 +96,18 @@ class ProjectController extends Controller
      */
     public function destroy($id)
     {
-        $output=  $this->repository->delete($id);
 
-        if($output)
-            return response()->json("success!") ;
-        return response()->json("error!") ;
+        try{
+
+            $this->repository->delete($id);
+            return response()->json("success!");
+
+        }catch (\Exception $e){
+
+                if($e->getCode() ==0)
+                return response()->json("'code':1,'description':'Project $id not found!' ") ;
+        }
+
+
     }
 }
