@@ -66,7 +66,13 @@ class ClientController extends Controller
      */
     public function show($id)
     {
-        return $this->repository->find($id);
+        try{
+            return $this->repository->find($id);
+
+        }catch (\Exception $e){
+            if($e->getCode() ==0)
+                return response()->json("'code':1,''description':''Client not found!' ") ;
+        }
     }
 
 
@@ -80,7 +86,14 @@ class ClientController extends Controller
     public function update(Request $request, $id)
     {
 
-       return $this->service->update($request->all(),$id);
+        try{
+            return $this->service->update($request->all(),$id);
+
+        }catch (\Exception $e){
+
+            if($e->getCode() ==0)
+                return response()->json("'code':1,''description':'Client $id not found!' ") ;
+        }
 
     }
 
@@ -92,11 +105,20 @@ class ClientController extends Controller
      */
     public function destroy($id)
     {
-      $output=  $this->repository->delete($id);
 
-      if($output)
-          return response()->json("success!") ;
-      return response()->json("error!") ;
+        try{
+
+            $this->repository->delete($id);
+            return response()->json("success!");
+
+        }catch (\Exception $e){
+
+            if($e->getCode() == 23000)
+                return response()->json("'code':2,'description':'It is not allowed to exclude client project started' ") ;
+
+            if($e->getCode() ==0)
+                return response()->json("'code':1,'description':'Client $id not found!' ") ;
+        }
 
     }
 }
