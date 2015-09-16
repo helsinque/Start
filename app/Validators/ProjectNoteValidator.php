@@ -12,7 +12,7 @@ namespace myProject\Validators;
 use Prettus\Validator\Contracts\ValidatorInterface;
 use Prettus\Validator\LaravelValidator;
 
-class ClientValidator extends LaravelValidator
+class ProjectNoteValidator extends LaravelValidator
 {
     /*without interface
      * protected  $rules = array('name'=>'required|max:255', ...);
@@ -21,18 +21,16 @@ class ClientValidator extends LaravelValidator
     protected  $rules = array(
 
         ValidatorInterface::RULE_CREATE => array(
-            'name'=> 'required|max:255',
-            'responsible'=> 'required|max:255',
-            'email'=> 'required|email',
-            'phone'=> 'required',
-            'address'=> 'required'
+            'project_id'=> 'required|integer',
+            'title'=> 'required',
+            'note'=> 'required',
+
         ),
         ValidatorInterface::RULE_UPDATE => array(
-            'name'=> 'required|max:255',
-            'responsible'=> 'required|max:255',
-            'email'=> 'required|email',
-            'phone'=> 'required',
-            'address'=> 'required'
+            'project_id'=> 'required|integer',
+            'title'=> 'required',
+            'note'=> 'required',
+
         )
 
     );
