@@ -34,8 +34,13 @@ class Project extends Model implements Transformable
     public function user()
     {
         // belongsTo()project  * - 1 user
-        // hasMany() 1 - * //
+
         return $this->belongsTo(User::class,'owner_id');
+    }
+    public function notes(){
+
+        // hasMany() 1 - * //
+        return $this->hasMany(ProjectNote::class);
     }
 
 }

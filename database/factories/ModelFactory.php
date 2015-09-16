@@ -42,3 +42,12 @@ $factory->define(myProject\Entities\Project::class, function (Faker\Generator $f
         'due_date' => $faker->dateTime('now'),
     ];
 });
+
+$factory->define(myProject\Entities\ProjectNote::class, function (Faker\Generator $faker) {
+    return [
+        'project_id' => rand(1,10),
+        'title' => $faker->word,
+        'note' => $faker->paragraph(),
+
+    ];
+});

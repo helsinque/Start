@@ -22,7 +22,15 @@ class UsersTableSeeder extends  Seeder
     {
 
         //\myProject\Entities\Project::truncate();
+        factory(\myProject\Entities\User::class)->create(
 
+            array('name' => 'helsinque',
+                  'email' => 'helsinquedeveloper@gmail.com',
+                  'password' => bcrypt(12345),
+                  'remember_token' => str_random(10)
+                 )
+
+        );
         factory(\myProject\Entities\User::class, 10)->create();
     }
 
