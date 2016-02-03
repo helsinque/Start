@@ -35,5 +35,9 @@ class RepositoryProvider extends ServiceProvider
             \myProject\Repositories\ProjectNoteRepository::class,
             \myProject\Repositories\ProjectNoteRepositoryEloquent::class
         );
+        $this->app->bind(
+            \myProject\Repositories\ProjectTaskRepository::class,
+            \myProject\Repositories\ProjectTaskRepositoryEloquent::class
+        );
     }
 }

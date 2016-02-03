@@ -33,8 +33,17 @@ class ProjectController extends Controller
 
     public function index()
     {
-      $relations = $this->repository->getRelations();
-      return  $this->repository->with($relations)->all();
+
+
+      /*
+       * EXEMPLO DE USE DE RELACIONAMENTOS
+       *
+       * $relations = $this->repository->getRelations();
+       * return  $this->repository->with($relations)->all();
+      */
+
+      return $this->repository->findWhere(['owner_id'=> \Authorizer::getResourceOwnerId()]);
+
     }
 
     /**
@@ -57,10 +66,15 @@ class ProjectController extends Controller
     public function show($id)
     {
 
+        if(!$this->checkProjectOwner($id))
+            return ['error'=> 'access forbidden'];
+
         $relations = $this->repository->getRelations();
+        unset($relations[2]);
 
         try{
-            $this->repository->with($relations)->find($id);
+
+           return $this->repository->with($relations)->find($id);
 
         }catch (\Exception $e){
             if($e->getCode() ==0)
@@ -78,6 +92,10 @@ class ProjectController extends Controller
      */
     public function update(Request $request, $id)
     {
+
+        if(!$this->checkProjectOwner($id))
+            return ['error'=> 'access forbidden'];
+
         try{
             return $this->service->update($request->all(),$id);
 
@@ -97,6 +115,9 @@ class ProjectController extends Controller
     public function destroy($id)
     {
 
+        if(!$this->checkProjectOwner($id))
+            return ['error'=> 'access forbidden'];
+
         try{
 
             $this->repository->delete($id);
@@ -110,4 +131,28 @@ class ProjectController extends Controller
 
 
     }
+
+    public function showMembers($id)
+    {
+
+        try{
+
+            $relations = $this->repository->getRelations();
+            return  $this->repository->with($relations[2])->find($id);
+
+        }catch (\Exception $e){
+            if($e->getCode() ==0)
+                return response()->json("'code':1,'description':'Project $id not contains Members!' ") ;
+        }
+
+    }
+
+    private  function  checkProjectOwner($projectId){
+
+        $userId = \Authorizer::getResourceOwnerId();
+
+        return $this->repository->isOwner($projectId, $userId);
+
+    }
+
 }

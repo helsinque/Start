@@ -19,20 +19,41 @@ Route::post('oauth/access_token',function(){
     return Response::json(Authorizer::issueAccessToken());
 });
 
-Route::get('client', 'ClientController@index');
-Route::post('client', 'ClientController@store');
-Route::get('client/{id}', 'ClientController@show');
-Route::delete('client/{id}', 'ClientController@destroy');
-Route::put('client/{id}', 'ClientController@update');
 
-Route::get('project/{id}/note','ProjectNoteController@index');
-Route::post('project/note', 'ProjectNoteController@store');
-Route::get('project/{id}/note/{noteId}','ProjectNoteController@show');
-Route::put('project/{id}/note/{noteId}', 'projectNoteController@update');
-Route::delete('project/{id}/note/{noteId}', 'ProjectNoteController@destroy');
+Route::group(['middleware'=>'oauth'], function(){
 
-Route::get('project','ProjectController@index');
-Route::get('project/{id}','ProjectController@show');
-Route::post('project', 'ProjectController@store');
-Route::put(' project/{id}', 'ProjectController@update');
-Route::delete('project/{id}', 'ProjectController@destroy');
+    Route::resource('client', 'ClientController', ['except' => ['create', 'edit']]);
+
+    /*
+     * ABAIXO UM EXEMPLO DE CRIAÇÃO DE MIDDLEWARE
+     *
+     * Route::group(['middleware' =>'checkProjectOwner'], function(){
+     *   Route::resource('project', 'ProjectController', ['except' => ['create', 'edit']]);
+     *  });
+     * */
+
+    Route::resource('project', 'ProjectController', ['except' => ['create', 'edit']]);
+
+    Route::group(['prefix' =>'project'], function(){
+
+        Route::get('{id}/note','ProjectNoteController@index');
+        Route::post('note', 'ProjectNoteController@store');
+        Route::get('{id}/note/{noteId}','ProjectNoteController@show');
+        Route::put('{id}/note/{noteId}', 'projectNoteController@update');
+        Route::delete('{id}/note/{noteId}', 'ProjectNoteController@destroy');
+
+        Route::get('{id}/members', 'ProjectController@showMembers');
+
+        Route::get('{id}/task', 'ProjectTaskController@index')->where('id', '[0-9].*');
+        Route::post('task', 'ProjectTaskController@store');
+        Route::get('{id}/task/{taskId}','ProjectTaskController@show');
+        Route::put('{id}/task/{taskId}', 'projectTaskController@update');
+        Route::delete('{id}/task/{taskId}', 'ProjectTaskController@destroy');//->where('taskId', '[0-9].*');
+
+
+    });
+
+});
+
+
+

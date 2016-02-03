@@ -4,13 +4,13 @@ namespace myProject\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-use myProject\Repositories\ProjectNoteRepository;
-
+use Illuminate\Http\Response;
 use myProject\Http\Requests;
+use myProject\Repositories\ProjectTaskRepository;
 use myProject\Services\ProjectNoteService;
 
 
-class ProjectNoteController extends Controller
+class ProjectTaskController extends Controller
 {
     /**
      * ProjectController constructor.
@@ -19,10 +19,10 @@ class ProjectNoteController extends Controller
     private $service;
 
     /**
-     * @param ProjectNoteRepository $repository
-     * @param ProjectNoteService $service
+     * @param ProjectTaskRepository $repository
+     * @param ProjectTaskService $service
      */
-    public function __construct(ProjectNoteRepository $repository, ProjectNoteService $service)
+    public function __construct(ProjectTaskRepository $repository, ProjectTaskRepository $service)
     {
         $this->repository = $repository;
         $this->service = $service;
@@ -38,12 +38,10 @@ class ProjectNoteController extends Controller
     public function index($id)
     {
 
-      try{
-          return $this->repository->findWhere(['project_id' => $id]);
+     if(count($this->repository->findWhere(['project_id' => $id])))
+        return $this->repository->findWhere(['project_id' => $id]);
 
-      }catch (\Exception $e){
-          print_r($e);
-      }
+     return response()->json("'code':1,'description':'ProjectTask $id not found!' ") ;
 
     }
 
@@ -64,9 +62,22 @@ class ProjectNoteController extends Controller
      * @param  int  $id
      * @return Response
      */
-    public function show($id, $noteId)
+    public function show($id, $taskId)
     {
-        return $this->repository->findWhere(['project_id'=> $id, 'id'=> $noteId]);
+
+        try{
+
+            if(count($this->repository->findWhere(['project_id'=> $id, 'id'=> $taskId])) ==0)
+                return response()->json("'code':1,''description':''Task not found!' ") ;
+
+            return $this->repository->findWhere(['project_id'=> $id, 'id'=> $taskId]);
+
+        }catch (\Exception $e){
+
+            dd($e->getCode());
+            if($e->getCode() ==0)
+                return response()->json("'code':1,''description':''Task not found!' ") ;
+        }
     }
 
     /**
@@ -76,9 +87,9 @@ class ProjectNoteController extends Controller
      * @param  int  $id
      * @return Response
      */
-    public function update(Request $request, $id, $noteId)
+    public function update(Request $request, $id, $task)
     {
-        return $this->service->update($request->all(),$noteId);
+        return $this->service->update($request->all(),$task);
     }
 
     /**

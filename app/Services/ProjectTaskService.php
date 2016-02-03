@@ -9,13 +9,12 @@
 namespace myProject\Services;
 
 
-use myProject\Entities\ProjectMember;
-use myProject\Repositories\ProjectRepository;
-use myProject\Validators\ProjectValidator;
+use myProject\Entities\ProjectTask;
+use myProject\Validators\ProjectTaskValidator;
 use Prettus\Validator\Contracts\ValidatorInterface;
 use Prettus\Validator\Exceptions\ValidatorException;
 
-class ProjectService
+class ProjectTaskService
 {
 
 
@@ -26,10 +25,10 @@ class ProjectService
     protected $validator;
 
     /**
-     * ClientService constructor.
+     * projectNoteService constructor.
      * @param $repository
      */
-    public function __construct(ProjectRepository $repository, ProjectValidator $validator)
+    public function __construct(ProjectTask $repository, ProjectTaskValidator $validator)
     {
         $this->repository = $repository;
         $this->validator = $validator;
@@ -37,6 +36,7 @@ class ProjectService
 
     public function create(array $data)
     {
+
 
         try
         {
@@ -78,37 +78,9 @@ class ProjectService
             );
         }
 
-    }
-
-    public function addMember($id){
-
-        return $this->repository->members()->attach($id);
 
     }
 
-    public function removeMember($id){
-
-        return $this->repository->members()->detach($id);
-
-    }
-
-    public function isMember($id){
-
-        try{
-
-            $relations = $this->repository->getRelations();
-
-            if(count($this->repository->with($relations[2])->find($id) >0) );
-               return true;
-
-            return false;
-
-        }catch (\Exception $e){
-            if($e->getCode() ==0)
-                return response()->json("'code':1,'description':'User $id not is Member!' ") ;
-        }
-
-    }
 
 
 }
