@@ -54,14 +54,13 @@ $factory->define(myProject\Entities\ProjectNote::class, function (Faker\Generato
 
  $factory->define(myProject\Entities\ProjectTask::class, function (Faker\Generator $faker) {
         return [
-            'id' => rand(1,10),
             'name' => $faker->name,
             'project_id' => rand(1,10),
             'start_date' => $faker->date(),
             'due_date' => $faker->date(),
             'status' => rand(1,3),
             'created_at' => $faker->date(),
-            'update_at' => $faker->date(),
+            'updated_at' => $faker->date(),
 
         ];
 });

@@ -12,7 +12,7 @@ use myProject\Entities\Project;
 class ProjectRepositoryEloquent extends BaseRepository implements ProjectRepository
 {
 
-    protected $relationships = array('user','client');
+    protected $relationships = array('user','client','members');
 
     /**
      * @return array
@@ -32,7 +32,12 @@ class ProjectRepositoryEloquent extends BaseRepository implements ProjectReposit
         return Project::class;
     }
 
+    public function isOwner($projectId, $userId){
 
+        if(count($this->findWhere(['id'=>$projectId, 'owner_id'=> $userId])) ==0)
+            return false;
+        return true;
 
+    }
 
 }

@@ -22,11 +22,4 @@ class ProjectNoteRepositoryEloquent extends BaseRepository implements ProjectNot
         return ProjectNote::class;
     }
 
-    /**
-     * Boot up the repository, pushing criteria
-     */
-    public function boot()
-    {
-        $this->pushCriteria( app(RequestCriteria::class) );
-    }
 }
