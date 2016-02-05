@@ -58,6 +58,20 @@ class ProjectController extends Controller
     }
 
     /**
+     * Store a newly created resource in storage.
+     *
+     * @param  $id
+     * @param  $memberId
+     * @return Response
+     */
+    public function storeMember($id, $memberId)
+    {
+        if(!$this->checkProjectOwner($id, $memberId))
+            return ['error'=> 'access forbidden'];
+        return $this->service->addMember($id, $memberId);
+    }
+
+    /**
      * Display the specified resource.
      *
      * @param  int  $id
@@ -66,7 +80,7 @@ class ProjectController extends Controller
     public function show($id)
     {
 
-        if(!$this->checkProjectOwner($id))
+        if(!$this->checkProjectPermissions($id))
             return ['error'=> 'access forbidden'];
 
         $relations = $this->repository->getRelations();
@@ -114,29 +128,30 @@ class ProjectController extends Controller
      */
     public function destroy($id)
     {
-
         if(!$this->checkProjectOwner($id))
             return ['error'=> 'access forbidden'];
-
         try{
-
             $this->repository->delete($id);
             return response()->json("success!");
 
         }catch (\Exception $e){
-
                 if($e->getCode() ==0)
                 return response()->json("'code':1,'description':'Project $id not found!' ") ;
         }
+    }
 
+    public function destroyMember($id, $memberId)
+    {
+        if($this->service->removeMember($id, $memberId))
+            return response()->json("'code':1,'description':'successfully removed member!' ") ;
+
+        return response()->json("'code':1,'description':'Failed to remove Member check!' ") ;
 
     }
 
     public function showMembers($id)
     {
-
         try{
-
             $relations = $this->repository->getRelations();
             return  $this->repository->with($relations[2])->find($id);
 
@@ -144,7 +159,6 @@ class ProjectController extends Controller
             if($e->getCode() ==0)
                 return response()->json("'code':1,'description':'Project $id not contains Members!' ") ;
         }
-
     }
 
     private  function  checkProjectOwner($projectId){
@@ -152,6 +166,24 @@ class ProjectController extends Controller
         $userId = \Authorizer::getResourceOwnerId();
 
         return $this->repository->isOwner($projectId, $userId);
+
+    }
+
+    private  function  checkProjectMember($projectId){
+
+        $userId = \Authorizer::getResourceOwnerId();
+
+        return $this->repository->hasMember($projectId, $userId);
+
+    }
+
+    private function  checkProjectPermissions($project_id){
+
+        if($this->checkProjectOwner($project_id) or $this->checkProjectMember($project_id)){
+            return true;
+        }
+        return false;
+
 
     }
 

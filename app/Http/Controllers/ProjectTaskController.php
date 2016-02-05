@@ -87,7 +87,7 @@ class ProjectTaskController extends Controller
      * @param  int  $id
      * @return Response
      */
-    public function update(Request $request, $id, $task)
+    public function update(Request $request, $task)
     {
         return $this->service->update($request->all(),$task);
     }

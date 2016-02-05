@@ -43,8 +43,12 @@ Route::group(['middleware'=>'oauth'], function(){
         Route::delete('{id}/note/{noteId}', 'ProjectNoteController@destroy');
 
         Route::get('{id}/members', 'ProjectController@showMembers');
+        Route::delete('{id}/members/{memberId}', 'ProjectController@destroyMember')->where('memberId', '[0-9]+|[0-9].*\d');
+        Route::post('{id}/members/{memberId}', 'ProjectController@storeMember')->where('memberId', '[0-9]+|[0-9].*\d');
 
-        Route::get('{id}/task', 'ProjectTaskController@index')->where('id', '[0-9].*');
+        Route::post('{id}/file', 'ProjectFileController@store');
+
+        Route::get('{id}/task', 'ProjectTaskController@index')->where('id', '[0-9]+|[0-9].*\d');
         Route::post('task', 'ProjectTaskController@store');
         Route::get('{id}/task/{taskId}','ProjectTaskController@show');
         Route::put('{id}/task/{taskId}', 'projectTaskController@update');

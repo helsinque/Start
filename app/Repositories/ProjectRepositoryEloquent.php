@@ -4,6 +4,8 @@ namespace myProject\Repositories;
 
 use Prettus\Repository\Eloquent\BaseRepository;
 use myProject\Entities\Project;
+use myProject\Presenters\ProjectPresenter;
+
 
 /**
  * Class ProjectRepositoryEloquent
@@ -34,10 +36,37 @@ class ProjectRepositoryEloquent extends BaseRepository implements ProjectReposit
 
     public function isOwner($projectId, $userId){
 
+        $this->skipPresenter(true);
         if(count($this->findWhere(['id'=>$projectId, 'owner_id'=> $userId])) ==0)
             return false;
+
+        $this->skipPresenter(false);
         return true;
 
     }
+
+
+    public function hasMember($project_id , $member_id){
+
+        $this->skipPresenter(true);
+
+        $project = $this->find($project_id);
+
+        foreach($project->members as $member){
+            if($member->id == $member_id){
+
+                $this->skipPresenter(false);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public  function presenter(){
+
+        return ProjectPresenter::class;
+    }
+
+
 
 }

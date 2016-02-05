@@ -8,7 +8,7 @@ use Prettus\Repository\Contracts\RepositoryInterface;
  * Interface PtojectMembersRepository
  * @package namespace myProject\Repositories;
  */
-interface PtojectMembersRepository extends RepositoryInterface
+interface ProjectMemberRepository extends RepositoryInterface
 {
     //
 
