@@ -47,6 +47,7 @@ Route::group(['middleware'=>'oauth'], function(){
         Route::post('{id}/members/{memberId}', 'ProjectController@storeMember')->where('memberId', '[0-9]+|[0-9].*\d');
 
         Route::post('{id}/file', 'ProjectFileController@store');
+        Route::delete('{id}/file/{fileId}', 'ProjectFileController@destroy');
 
         Route::get('{id}/task', 'ProjectTaskController@index')->where('id', '[0-9]+|[0-9].*\d');
         Route::post('task', 'ProjectTaskController@store');

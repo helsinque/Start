@@ -24,7 +24,6 @@ class ProjectNote extends Model implements Transformable
         'note',
     );
 
-
     public function project(){
 
         return $this->belongsTo(Project::class);

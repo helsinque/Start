@@ -11,12 +11,19 @@ namespace myProject\Repositories;
 
 use myProject\Entities\Client;
 use Prettus\Repository\Eloquent\BaseRepository;
+use myProject\Presenters\ClientPresenter;
 
 class ClientRepositoryEloquent  extends  BaseRepository implements ClientRepository
 {
     public  function model(){
 
         return Client::class;
+
+    }
+
+    function presenter()
+    {
+        return ClientPresenter::class;
 
     }
 

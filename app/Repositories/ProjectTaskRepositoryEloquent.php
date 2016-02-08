@@ -4,6 +4,7 @@ namespace myProject\Repositories;
 
 use Prettus\Repository\Eloquent\BaseRepository;
 use myProject\Entities\ProjectTask;
+use myProject\Presenters\ProjectTaskPresenter;
 
 /**
  * Class ProjectTaskRepositoryEloquent
@@ -29,5 +30,9 @@ class ProjectTaskRepositoryEloquent extends BaseRepository implements ProjectTas
         $this->pushCriteria( app(RequestCriteria::class) );
     }
     **/
+    function presenter()
+    {
+        return ProjectTaskPresenter::class;
+    }
 
 }

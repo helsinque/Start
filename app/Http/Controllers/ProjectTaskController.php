@@ -7,7 +7,8 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use myProject\Http\Requests;
 use myProject\Repositories\ProjectTaskRepository;
-use myProject\Services\ProjectNoteService;
+//use myProject\Services\ProjectNoteService;
+use myProject\Services\ProjectTaskService;
 
 
 class ProjectTaskController extends Controller
@@ -22,7 +23,7 @@ class ProjectTaskController extends Controller
      * @param ProjectTaskRepository $repository
      * @param ProjectTaskService $service
      */
-    public function __construct(ProjectTaskRepository $repository, ProjectTaskRepository $service)
+    public function __construct(ProjectTaskRepository $repository, ProjectTaskService $service)
     {
         $this->repository = $repository;
         $this->service = $service;
@@ -74,7 +75,6 @@ class ProjectTaskController extends Controller
 
         }catch (\Exception $e){
 
-            dd($e->getCode());
             if($e->getCode() ==0)
                 return response()->json("'code':1,''description':''Task not found!' ") ;
         }
