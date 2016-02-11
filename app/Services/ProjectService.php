@@ -8,6 +8,7 @@
 
 namespace myProject\Services;
 
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Request;
 use myProject\Repositories\ProjectRepository;
 use myProject\Validators\ProjectValidator;
@@ -117,13 +118,36 @@ class ProjectService
 
     }
 
-    public function createFile(array $data)
+    public function createFile($request)
     {
+
+       // dd($request->all());
+
+        $file = $request->file('file');
+        $extension = $file->getClientOriginalExtension();
+        $data['file'] = $file;
+        $data['extension'] = $extension;
+        $data['name'] = $request->name;
+        $data['project_id'] = $request->project_id;
+        $data['description'] = $request->description;
+        $data['mime'] = $file->getClientMimeType();
+        $data['size'] = $file->getClientSize();
+        
         try
         {
             $this->filevalidator->with($data)->passesOrFail(ValidatorInterface::RULE_CREATE );
 
-            $project = $this->repository->skipPresenter()->find($data['project_id']);
+            try
+            {
+                $project = $this->repository->skipPresenter()->find($data['project_id']);
+
+            }catch (\Exception $e)
+            {
+                if($e->getCode() ==0){
+                    return response()->json("'code':1,'description':'Project Not Found!' ") ;
+                }
+            }
+
             $projectFile = $project->files()->create($data);
 
             if($this->storage->put($projectFile->id.".".$data['extension'], $this->filesystem->get($data['file']))){

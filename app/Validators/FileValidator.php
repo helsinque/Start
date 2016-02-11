@@ -24,7 +24,6 @@ class fileValidator extends LaravelValidator
             'project_id'=> 'required|numeric',
             'name'=> 'required|alpha_dash',
             'description'=> 'alpha_dash|max:255',
-            'name'=> 'required'
         ),
     );
 

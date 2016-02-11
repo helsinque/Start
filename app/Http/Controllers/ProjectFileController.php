@@ -38,21 +38,7 @@ class ProjectFileController extends Controller
         if(!$request->exists('file')){
             return response()->json("'code':1,'description':'File not found!' ") ;
         }
-
-        $file = $request->file('file');
-        $extension = $file->getClientOriginalExtension();
-        $data['file'] = $file;
-        $data['extension'] = $extension;
-        $data['name'] = $request->name;
-        $data['project_id'] = $request->project_id;
-        $data['description'] = $request->description;
-        $data['mime'] = $file->getClientMimeType();
-        $data['size'] = $file->getClientSize();
-
-
-        dd($data);
-
-        return $this->service->createFile($data);
+        return $this->service->createFile($request);
 
     }
 
