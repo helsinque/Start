@@ -5,3 +5,9 @@ Homestead.json
 .env
 .idea/
 .idea/blade.xml
+/resources/bower_component
+/public/build
+/public/css
+/public/js
+/resources/bower_components
+
