@@ -6,6 +6,6 @@ angular.module('app.controllers')
             password: ''
         };
         $scope.login = function(){
-
+alert("aaqui");
         };
     }]);
