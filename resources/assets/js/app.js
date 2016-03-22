@@ -2,9 +2,8 @@ var app = angular.module('app',['ngRoute','app.controllers']);
 
 angular.module('app.controllers',[]);
 
-app.config(['$routerProvider',
-    function($routerProvider){
-    $routerProvider
+app.config(function($routeProvider){
+    $routeProvider
         .when('/login',{
             TemplateUrl: 'build/views/login.html',
             controller: 'LoginController'
@@ -14,4 +13,4 @@ app.config(['$routerProvider',
             controller: 'HomeController'
         })
     }
-]);
+);
