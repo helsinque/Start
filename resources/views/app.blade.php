@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" ng-app="app">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -47,8 +47,8 @@
 
             <ul class="nav navbar-nav navbar-right">
                 @if(auth()->guest())
-                    @if(!Request::is('auth/login'))
-                        <li><a href="{{ url('/auth/login') }}">Login</a></li>
+                    @if(!Request::is('build/views/login'))
+                        <li><a href="{{ url('build/views/login') }}">Login</a></li>
                     @endif
                     @if(!Request::is('auth/register'))
                         <li><a href="{{ url('/auth/register') }}">Register</a></li>
@@ -66,7 +66,7 @@
     </div>
 </nav>
 
-@yield('content')
+<div ng-view></div>
 
         <!-- Scripts -->
 @if(Config::get('app.debug'))
@@ -78,7 +78,14 @@
     <script src="{{ asset("build/js/vendor/angular-animate.min.js")  }}"></script>
     <script src="{{ asset("build/js/vendor/angular-messages.min.js")  }}"></script>
     <script src="{{ asset("build/js/vendor/ui-bootstrap.min.js")  }}"></script>
-    <script src="{{ asset("build/js/vendor/navebar.min.js")  }}"></script>
+    <script src="{{ asset("build/js/vendor/navbar.min.js")  }}"></script>
+
+    <script src="{{ asset("build/js/app.js")  }}"></script>
+    <script src="{{ asset("build/js/controllers/login.js")  }}"></script>
+    <script src="{{ asset("build/js/controllers/home.js")  }}"></script>
+
+
+
 
 @else
 
